@@ -45,7 +45,6 @@ const git = simpleGit(dataDir);
       logger.warn('データ取得できず');
       return;
     }
-    logger.debug(currentData);
 
     logger.debug('生データ保存');
     fs.mkdirSync(dataDir, { recursive: true });
