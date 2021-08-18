@@ -27,6 +27,7 @@ jobs:
           docker-compose run --rm crawler
         env:
           COMPOSE_FILE: docker-compose.crawler.yml
+          WORKDIR: /var/app/3594t-data
           CRAWLER_IMAGE: ghcr.io/${{ github.repository }}:crawler
           PUPPETEER_NAVIGATION_TIMEOUT: 120000
           TARGET_URL: https://3594t.net/datalist/
