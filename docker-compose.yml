@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  main:
+    build:
+      context: .
+      target: ${BUILD_TARGET:-chrome}
+      args:
+        - WORKDIR=${WORKDIR:-/var/app/app-name}
+    volumes:
+      - ./:${WORKDIR:-/var/app/app-name}
+    environment:
+      - PUPPETEER_NAVIGATION_TIMEOUT
+      - CLIENT_USER_AGENT
+      - TARGET_URL
+      - GIT_USER_NAME
+      - GIT_USER_EMAIL
+      - SLACK_TOKEN
+      - SLACK_CHANNEL_ID
+      - SLACK_INFO_CHANNEL_ID
+      - SLACK_WARN_CHANNEL_ID
+      - SLACK_ERROR_CHANNEL_ID
+    cap_add:
+      - SYS_ADMIN
+    command: bash

@@ -1,0 +1,41 @@
+name: Crawler
+
+on:
+  # schedule:
+  #   - cron:  '03 22 * * *'
+  repository_dispatch:
+    types:
+      - start_crawl
+
+env:
+  TZ: Asia/Tokyo
+
+jobs:
+  crawler:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: main
+          path: data
+          ssh-key: ${{ secrets.DEPLOY_KEY_SECRET }}
+      - name: Run
+        run: |
+          docker-compose run --rm crawler
+        env:
+          COMPOSE_FILE: docker-compose.crawler.yml
+          PUPPETEER_NAVIGATION_TIMEOUT: 120000
+          TARGET_URL: https://3594t.net/datalist/
+          GIT_USER_NAME: '3594t-deck BOT'
+          GIT_USER_EMAIL: '3594t-deck@example.com'
+          CLIENT_USER_AGENT: ${{ secrets.CLIENT_USER_AGENT }}
+          SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
+          SLACK_INFO_CHANNEL_ID: ${{ secrets.SLACK_INFO_CHANNEL_ID }}
+          SLACK_ERROR_CHANNEL_ID: ${{ secrets.SLACK_ERROR_CHANNEL_ID }}
+      - name: Push
+        working-directory: data
+        run: |
+          git push
