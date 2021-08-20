@@ -2,9 +2,9 @@ name: Crawler
 
 on:
   schedule:
-    - cron:  '03,11,19,36,51 22 * * *'
-    - cron:  '11 0,23 * * *'
-    - cron:  '17 2-14/4 * * *'
+    - cron: '03,11,19,36,51 22 * * *'
+    - cron: '11 0,23 * * *'
+    - cron: '17 2-14/4 * * *'
   repository_dispatch:
     types:
       - start_crawl
