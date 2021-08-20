@@ -83,7 +83,7 @@ const git = simpleGit(dataDir);
 
     const currentDatetime = execSync('date +"%FT%T%z"').toString();
     await git.commit(currentDatetime);
-    logger.info('データ保存完了');
+    logger.info(`データ保存完了: ${currentDatetime}`);
   } catch (e) {
     logger.error(e);
   }
