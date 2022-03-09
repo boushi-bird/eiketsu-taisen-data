@@ -28,12 +28,12 @@ jobs:
           docker-compose run --rm crawler
         env:
           COMPOSE_FILE: docker-compose.crawler.yml
-          WORKDIR: /var/app/3594t-data
+          WORKDIR: /var/app/eiketsu-taisen-data
           CRAWLER_IMAGE: ghcr.io/${{ github.repository }}:crawler
           PUPPETEER_NAVIGATION_TIMEOUT: 120000
-          TARGET_URL: https://3594t.net/datalist/
-          GIT_USER_NAME: '3594t-deck BOT'
-          GIT_USER_EMAIL: '3594t-deck@example.com'
+          TARGET_URL: https://eiketsu-taisen.net/datalist/
+          GIT_USER_NAME: 'eiketsu-taisen-data BOT'
+          GIT_USER_EMAIL: 'eiketsu-taisen-data@example.com'
           CLIENT_USER_AGENT: ${{ secrets.CLIENT_USER_AGENT }}
           SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
           SLACK_INFO_CHANNEL_ID: ${{ secrets.SLACK_INFO_CHANNEL_ID }}
