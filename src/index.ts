@@ -1,7 +1,7 @@
 import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
-import simpleGit from 'simple-git/promise';
+import simpleGit from 'simple-git';
 import logger from './lib/logger';
 import compareData from './logic/compare-data';
 import convertData from './logic/convert-data';
