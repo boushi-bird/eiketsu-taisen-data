@@ -23,7 +23,6 @@ jobs:
         with:
           ref: main
           path: data
-          ssh-key: ${{ secrets.DEPLOY_KEY_SECRET }}
       - name: Run
         run: |
           docker-compose run --rm crawler
