@@ -23,6 +23,8 @@ const git = simpleGit(dataDir);
 
   // TODO: 前回のデータ取得
 
+  logger.info('データ取得開始');
+
   try {
     // データ取得
     const currentData = await fetchData();
