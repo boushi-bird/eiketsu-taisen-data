@@ -7,8 +7,8 @@
     "start": "node dist/index.js",
     "dev": "ts-node src/index.ts",
     "fix": "prettier --write src/",
-    "clean": "npx typescript --build --clean",
-    "build": "npx typescript"
+    "clean": "tsc --build --clean",
+    "build": "tsc --build"
   },
   "author": "boushi-bird <boushi-bird@users.noreply.github.com>",
   "license": "MIT",

@@ -1,4 +1,4 @@
-FROM node:14-slim AS chrome
+FROM node:16-slim AS chrome
 
 ENV LANG=C.UTF-8 TZ=Asia/Tokyo
 
