@@ -26,7 +26,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           build-args: |
-            WORKDIR=/var/app/3594t-data
+            WORKDIR=/var/app/eiketsu-taisen-data
           context: .
           push: true
           tags: |
