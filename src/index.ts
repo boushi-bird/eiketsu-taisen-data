@@ -3,15 +3,11 @@ import fs from 'fs';
 import path from 'path';
 import simpleGit from 'simple-git';
 import logger from './lib/logger';
-import compareData from './logic/compare-data';
-import convertData from './logic/convert-data';
 import fetchData from './logic/fetch-data';
-import generateMd5 from './logic/generate-md5';
 
 const encoding = 'utf-8';
 const dataDir = path.resolve(__dirname, '../data');
 const outputRawFile = path.resolve(dataDir, 'raw_base.json');
-const outputFile = path.resolve(dataDir, 'base.json');
 
 const git = simpleGit(dataDir);
 
@@ -25,17 +21,7 @@ const git = simpleGit(dataDir);
 
   await git.checkout('.');
 
-  logger.debug('前回のデータ取得');
-  const prevData = (function () {
-    try {
-      return JSON.parse(fs.readFileSync(outputFile, { encoding }));
-    } catch (e) {
-      logger.warn('前回のデータ取得失敗', e);
-      return {};
-    }
-  })();
-
-  logger.info('データ取得開始');
+  // TODO: 前回のデータ取得
 
   try {
     // データ取得
@@ -50,29 +36,11 @@ const git = simpleGit(dataDir);
     fs.mkdirSync(dataDir, { recursive: true });
     fs.writeFileSync(outputRawFile, JSON.stringify(currentData), { encoding });
 
-    logger.debug('データ変換');
-    try {
-      convertData(currentData);
-    } catch (e) {
-      logger.warn('データ変換処理失敗', currentData);
-      logger.warn(e);
-      return;
-    }
+    // TODO: データ変換
 
-    logger.debug('データ比較');
-    try {
-      compareData(currentData, prevData);
-    } catch (e) {
-      logger.warn('比較処理失敗');
-      logger.warn(e);
-      return;
-    }
+    // TODO: データ比較
 
-    logger.debug('データ保存');
-    fs.writeFileSync(outputFile, JSON.stringify(currentData), { encoding });
-
-    logger.debug('データのMD5作成');
-    generateMd5(outputFile);
+    // TODO: 変換データ保存
 
     await git.add('.');
     const result = await git.status();
