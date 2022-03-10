@@ -7,7 +7,7 @@ import fetchData from './logic/fetch-data';
 
 const encoding = 'utf-8';
 const dataDir = path.resolve(__dirname, '../data');
-const outputRawFile = path.resolve(dataDir, 'raw_base.json');
+const outputRawFile = path.resolve(dataDir, 'base_data.json');
 
 const git = simpleGit(dataDir);
 
