@@ -1,0 +1,28 @@
+name: ActionsKeeper
+
+on:
+  schedule:
+    - cron: '12 16 * * 6'
+  repository_dispatch:
+    types:
+      - start_actions_keeper
+
+env:
+  TZ: Asia/Tokyo
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Run
+        run: |
+          date --iso-8601="seconds" > actions_keeper.txt
+          git config --local user.name "eiketsu-taisen-data BOT"
+          git config --local user.email "eiketsu-taisen-data@example.com"
+          git add actions_keeper.txt
+          git commit -m "[skip ci]ActionsKeeper"
+      - name: Push
+        run: |
+          git push
