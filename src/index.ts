@@ -21,7 +21,15 @@ const git = simpleGit(dataDir);
 
   await git.checkout('.');
 
-  // TODO: 前回のデータ取得
+  logger.debug('前回のデータ取得');
+  const prevData = (function () {
+    try {
+      return JSON.parse(fs.readFileSync(outputRawFile, { encoding }));
+    } catch (e) {
+      logger.warn('前回のデータ取得失敗', e);
+      return {};
+    }
+  })();
 
   logger.info('データ取得開始');
 
@@ -38,11 +46,13 @@ const git = simpleGit(dataDir);
     fs.mkdirSync(dataDir, { recursive: true });
     fs.writeFileSync(outputRawFile, JSON.stringify(currentData), { encoding });
 
-    // TODO: データ変換
-
-    // TODO: データ比較
-
-    // TODO: 変換データ保存
+    logger.debug('キーの増減確認');
+    try {
+      compareKeys(currentData, prevData);
+    } catch (e) {
+      logger.warn('キーの増減確認処理失敗');
+      logger.warn(e);
+    }
 
     await git.add('.');
     const result = await git.status();
@@ -58,3 +68,18 @@ const git = simpleGit(dataDir);
     logger.error(e);
   }
 })();
+
+function compareKeys(currentData: any, prevData: any) {
+  const keys = Object.keys(currentData);
+  const prevKeys = Object.keys(prevData);
+
+  keys.concat(prevKeys).forEach((key) => {
+    const includeData = keys.includes(key);
+    const includePrev = prevKeys.includes(key);
+    if (includeData && !includePrev) {
+      logger.info(`データから ${key} が増えた。`);
+    } else if (!includeData && includePrev) {
+      logger.info(`データから ${key} が減った。`);
+    }
+  });
+}
