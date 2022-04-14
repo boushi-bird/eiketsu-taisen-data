@@ -39,7 +39,8 @@ const git = simpleGit(dataDir);
   logger.debug('生データ取得');
   const rawData = JSON.parse(fs.readFileSync(outputRawFile, { encoding }));
 
-  logger.debug('データ変換');
+  logger.info('データ変換開始');
+
   let currentData;
   try {
     currentData = convertEiketsuDeckData(rawData);
@@ -70,7 +71,7 @@ const git = simpleGit(dataDir);
     await git.add('.');
     const result = await git.status();
     if (result.staged.length === 0) {
-      logger.info('データ変更なし');
+      logger.info('[データ変換]データ変更なし');
       return;
     }
 
