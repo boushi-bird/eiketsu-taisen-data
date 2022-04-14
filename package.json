@@ -5,7 +5,9 @@
   "main": "src/index.ts",
   "scripts": {
     "start": "node dist/index.js",
+    "converter": "node dist/converter.js",
     "dev": "ts-node src/index.ts",
+    "dev-converter": "ts-node src/converter.ts",
     "fix": "prettier --write src/",
     "clean": "tsc --build --clean",
     "build": "tsc --build"
