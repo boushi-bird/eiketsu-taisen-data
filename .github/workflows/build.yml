@@ -14,6 +14,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Checkout Data
+        uses: actions/checkout@v2
+        with:
+          ref: main
+          path: data
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
       - name: Login to GitHub Container Registry
@@ -34,3 +39,19 @@ jobs:
             ghcr.io/${{ github.repository }}:crawler
             ghcr.io/${{ github.repository }}:${{ github.sha }}
           target: crawler
+      - name: Run Converter
+        run: |
+          docker-compose run --rm crawler npm run converter
+        env:
+          COMPOSE_FILE: docker-compose.crawler.yml
+          WORKDIR: /var/app/eiketsu-taisen-data
+          CRAWLER_IMAGE: ghcr.io/${{ github.repository }}:crawler
+          GIT_USER_NAME: 'eiketsu-taisen-data BOT'
+          GIT_USER_EMAIL: 'eiketsu-taisen-data@example.com'
+          SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
+          SLACK_INFO_CHANNEL_ID: ${{ secrets.SLACK_INFO_CHANNEL_ID }}
+          SLACK_ERROR_CHANNEL_ID: ${{ secrets.SLACK_ERROR_CHANNEL_ID }}
+      - name: Push Converted Data
+        working-directory: data
+        run: |
+          git push
