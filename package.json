@@ -18,7 +18,7 @@
   "dependencies": {
     "@slack/client": "^5.0.2",
     "puppeteer-core": "^13.5.1",
-    "simple-git": "^3.2.6",
+    "simple-git": "^3.5.0",
     "winston": "^3.6.0"
   },
   "devDependencies": {
