@@ -3,6 +3,8 @@ import logger from '../lib/logger';
 // データとして利用するキー
 const KEYS = [
   'general',
+  'generalAppearVer',
+  'generalAppearFilterGroup',
   'color',
   'period',
   'indexInitial',
