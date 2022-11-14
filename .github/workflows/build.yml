@@ -61,3 +61,18 @@ jobs:
         working-directory: data
         run: |
           git push
+  trigger_ci:
+    needs: convert
+    runs-on: ubuntu-latest
+    steps:
+      # Github Actionsのデプロイを待つためSleep
+      - name: Waiting
+        run: |
+          sleep 90
+      - name: Trigger CI for eiketsu-taisen-net-datalist
+        run: |
+          curl -H "Authorization: token $TOKEN" -H 'Content-Type: application/json' -X POST https://api.github.com/repos/$REPO/dispatches -d "{\"event_type\":\"$EVENT_TYPE\",\"client_payload\":{}}"
+        env:
+          TOKEN: ${{ secrets.TRIGGER_CI_TOKEN }}
+          REPO: boushi-bird/eiketsu-taisen-net-datalist
+          EVENT_TYPE: trigger_ci
