@@ -24,6 +24,8 @@ COPY ./ $WORKDIR
 
 RUN mkdir -p "$WORKDIR/data"
 
+RUN git config --global --add safe.directory "$WORKDIR/data"
+
 RUN npm --production=false install \
     && npm run build
 
