@@ -47,7 +47,7 @@ jobs:
           path: data
       - name: Run Converter
         run: |
-          docker-compose run --rm crawler npm run converter
+          docker compose run --rm crawler npm run converter
         env:
           COMPOSE_FILE: docker-compose.crawler.yml
           WORKDIR: /var/app/eiketsu-taisen-data
