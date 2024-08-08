@@ -17,14 +17,14 @@
   "private": true,
   "dependencies": {
     "@slack/client": "^5.0.2",
-    "puppeteer-core": "^16.1.0",
-    "simple-git": "^3.20.0",
-    "winston": "^3.11.0"
+    "puppeteer-core": "^23.0.2",
+    "simple-git": "^3.25.0",
+    "winston": "^3.14.0"
   },
   "devDependencies": {
-    "@types/node": "^18.18.8",
+    "@types/node": "^22.1.0",
     "prettier": "^2.8.8",
-    "ts-node": "^10.9.1",
-    "typescript": "^5.2.2"
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.4"
   }
 }
