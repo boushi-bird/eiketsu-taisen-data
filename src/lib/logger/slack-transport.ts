@@ -1,6 +1,6 @@
 import { LoggerOptions } from 'winston';
 import Transport from 'winston-transport';
-import { WebClient as SlackWebClient } from '@slack/client';
+import { WebClient as SlackWebClient } from '@slack/web-api';
 
 interface SlackLoggerOption extends LoggerOptions {
   token: string;
