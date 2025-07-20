@@ -1,14 +1,8 @@
-version: '3'
-
 services:
-  main:
-    build:
-      context: .
-      target: ${BUILD_TARGET:-chrome}
-      args:
-        - WORKDIR=${WORKDIR:-/var/app/app-name}
+  crawler:
+    image: ${CRAWLER_IMAGE}
     volumes:
-      - ./:${WORKDIR:-/var/app/app-name}
+      - ./data:${WORKDIR}/data
     environment:
       - PUPPETEER_NAVIGATION_TIMEOUT
       - CLIENT_USER_AGENT
@@ -22,4 +16,3 @@ services:
       - SLACK_ERROR_CHANNEL_ID
     cap_add:
       - SYS_ADMIN
-    command: bash
