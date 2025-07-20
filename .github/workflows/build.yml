@@ -49,7 +49,7 @@ jobs:
         run: |
           docker compose run --rm crawler npm run converter
         env:
-          COMPOSE_FILE: docker-compose.crawler.yml
+          COMPOSE_FILE: compose.crawler.yaml
           WORKDIR: /var/app/eiketsu-taisen-data
           CRAWLER_IMAGE: ghcr.io/${{ github.repository }}:crawler
           GIT_USER_NAME: 'eiketsu-taisen-data BOT'
