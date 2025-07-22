@@ -10,6 +10,8 @@ const IGNORE_RESOURCE_URLS = [
 
 const executablePath = process.env.PUPPETEER_EXECUTABLE_PATH;
 const navigationTimeout = process.env.PUPPETEER_NAVIGATION_TIMEOUT;
+const baseDataWaitingTimeout =
+  parseInt(process.env.BASE_DATA_WAITING_TIMEOUT || '60000') || 60000;
 const clientUserAgent = process.env.CLIENT_USER_AGENT;
 const targetUrl = process.env.TARGET_URL;
 
@@ -68,7 +70,9 @@ export default async (): Promise<any> => {
     const evaluateFunction = 'BASE_DATA';
 
     logger.debug('BASE_DATA処理待ち');
-    await page.waitForFunction(waitingFunction, { timeout: 60000 });
+    await page.waitForFunction(waitingFunction, {
+      timeout: baseDataWaitingTimeout,
+    });
     logger.debug('BASE_DATA処理待ち完了');
 
     return await page.evaluate(evaluateFunction);
