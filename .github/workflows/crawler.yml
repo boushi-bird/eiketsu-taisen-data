@@ -30,7 +30,8 @@ jobs:
           COMPOSE_FILE: compose.crawler.yaml
           WORKDIR: /var/app/eiketsu-taisen-data
           CRAWLER_IMAGE: ghcr.io/${{ github.repository }}:crawler
-          PUPPETEER_NAVIGATION_TIMEOUT: 120000
+          PUPPETEER_NAVIGATION_TIMEOUT: 180000
+          BASE_DATA_WAITING_TIMEOUT: 120000
           TARGET_URL: https://eiketsu-taisen.net/datalist/
           GIT_USER_NAME: 'eiketsu-taisen-data BOT'
           GIT_USER_EMAIL: 'eiketsu-taisen-data@example.com'
