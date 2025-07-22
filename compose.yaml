@@ -9,6 +9,7 @@ services:
       - ./:${WORKDIR:-/var/app/app-name}
     environment:
       - PUPPETEER_NAVIGATION_TIMEOUT
+      - BASE_DATA_WAITING_TIMEOUT
       - CLIENT_USER_AGENT
       - TARGET_URL
       - GIT_USER_NAME
