@@ -7,12 +7,17 @@ import generateMd5 from './logic/generate-md5';
 import {
   convertData as convertEiketsuDeckData,
   compareData as compareEiketsuDeckData,
+  convertEiketsuDeckDataKabuki,
 } from './logic/eiketsu-deck-data';
 
 const encoding = 'utf-8';
 const dataDir = path.resolve(__dirname, '../data');
 const outputRawFile = path.resolve(dataDir, 'base_data.json');
 const outputEiketsuDeckFile = path.resolve(dataDir, 'eiketsu_deck_data.json');
+const outputEiketsuDeckKabukiFile = path.resolve(
+  dataDir,
+  'eiketsu_deck_data_kabuki.json',
+);
 
 const git = simpleGit(dataDir);
 
@@ -59,6 +64,19 @@ const git = simpleGit(dataDir);
     return;
   }
 
+  logger.debug('傾奇ptデータ作成');
+
+  // 傾奇pt対応
+  let kabuki;
+  try {
+    kabuki = convertEiketsuDeckDataKabuki(rawData);
+  } catch (e) {
+    logger.warn('傾奇ptデータ処理失敗', rawData);
+    logger.warn(e);
+    // 傾奇pt処理は失敗しても続行
+    kabuki = undefined;
+  }
+
   try {
     logger.debug('データ保存');
     fs.writeFileSync(outputEiketsuDeckFile, JSON.stringify(currentData), {
@@ -67,6 +85,30 @@ const git = simpleGit(dataDir);
 
     logger.debug('データのMD5作成');
     generateMd5(outputEiketsuDeckFile);
+
+    if (kabuki) {
+      fs.writeFileSync(outputEiketsuDeckKabukiFile, JSON.stringify(kabuki), {
+        encoding,
+      });
+      generateMd5(outputEiketsuDeckKabukiFile);
+    } else {
+      // 傾奇ptが生成できなければ削除
+      try {
+        if (fs.existsSync(outputEiketsuDeckKabukiFile)) {
+          fs.unlinkSync(outputEiketsuDeckKabukiFile);
+        }
+      } catch (e) {
+        logger.error(e);
+      }
+      try {
+        const md5File = `${outputEiketsuDeckKabukiFile}.md5`;
+        if (fs.existsSync(md5File)) {
+          fs.unlinkSync(md5File);
+        }
+      } catch (e) {
+        logger.error(e);
+      }
+    }
 
     await git.add('.');
     const result = await git.status();
