@@ -21,6 +21,23 @@ const outputEiketsuDeckKabukiFile = path.resolve(
 
 const git = simpleGit(dataDir);
 
+/**
+ * 傾奇の有効期限日時(※)を取得する。
+ * ※次の月曜日04:00(JST)(= 日曜日19:00(UTC))
+ * @param baseDate 基準日時
+ * @returns 傾奇の有効期限日時
+ */
+function getKabukiExpiredAt(baseDate: Date): Date {
+  const result = new Date(baseDate);
+  result.setUTCHours(19, 0, 0, 0);
+
+  // 次の日曜日までの日数を計算（今週の日曜19:00がbaseDate以前なら来週）
+  const daysToAdd = (7 - result.getUTCDay()) % 7 || 7;
+  result.setUTCDate(result.getUTCDate() + daysToAdd);
+
+  return result;
+}
+
 (async () => {
   logger.debug('git設定');
   await git.addConfig('user.name', process.env.GIT_USER_NAME || 'bot');
@@ -30,6 +47,18 @@ const git = simpleGit(dataDir);
   );
 
   await git.checkout('.');
+
+  // outputRawFile の最後のコミット時間をUTCで取得
+  const log = await git.log({
+    file: outputRawFile,
+    maxCount: 1,
+  });
+  const lastCommitedAt = log.latest ? new Date(log.latest.date) : null;
+  if (lastCommitedAt) {
+    logger.debug(
+      `base_data.jsonの最終コミット日時: ${lastCommitedAt.toISOString()}`,
+    );
+  }
 
   logger.debug('前回のデータ取得');
   const prevData = (function () {
@@ -70,6 +99,10 @@ const git = simpleGit(dataDir);
   let kabuki;
   try {
     kabuki = convertEiketsuDeckDataKabuki(rawData);
+
+    const kabukiExpiredAt = getKabukiExpiredAt(lastCommitedAt || new Date());
+    kabuki['kabukiExpiredAt'] = kabukiExpiredAt.toISOString();
+    logger.debug(`傾奇の有効期限日時: ${kabukiExpiredAt.toISOString()}`);
   } catch (e) {
     logger.warn('傾奇ptデータ処理失敗', rawData);
     logger.warn(e);
