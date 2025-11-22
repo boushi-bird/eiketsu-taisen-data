@@ -1,3 +1,4 @@
+.claude/*.local.*
 /data/
 
 # Created by https://www.toptal.com/developers/gitignore/api/node,linux,windows,macos,emacs,vim,visualstudiocode
