@@ -17,7 +17,7 @@
   "private": true,
   "dependencies": {
     "@slack/web-api": "^8.1.1",
-    "puppeteer-core": "^24.43.1",
+    "puppeteer-core": "^25.10.0",
     "simple-git": "^3.36.0",
     "winston": "^3.19.0"
   },
