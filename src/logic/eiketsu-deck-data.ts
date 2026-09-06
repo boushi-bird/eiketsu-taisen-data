@@ -20,6 +20,8 @@ const KEYS = [
   'illust',
   'illustView',
   'cv',
+  'appearPattern',
+  'wayToGet',
 ];
 
 export const convertData = (data: any): any => {
