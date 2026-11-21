@@ -1,10 +1,10 @@
-FROM node:24-slim AS chrome
+FROM node:26-slim AS chrome
 
 ENV LANG=C.UTF-8 TZ=Asia/Tokyo
 
 RUN apt-get update \
     && apt-get update \
-    && apt-get install -y chromium fonts-ipafont-gothic fonts-wqy-zenhei fonts-thai-tlwg fonts-kacst fonts-freefont-ttf libxss1 git \
+    && apt-get install -y chromium fonts-ipafont-gothic fonts-wqy-zenhei fonts-thai-tlwg fonts-kacst-one fonts-freefont-ttf libxss1 git \
       --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
